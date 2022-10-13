@@ -27,6 +27,9 @@ class TicTacToe:
             for player in self.players:
                 # Player make a move.
                 xy_position = player.get_move()
+                # Subtract 1 from x and y positions to account for indices.
+                xy_position[0] = int(xy_position[0]) - 1
+                xy_position[1] = int(xy_position[1]) - 1
 
                 # Validate player move.
                 if self._is_xy_board_position_free(xy_position):
@@ -44,23 +47,29 @@ class TicTacToe:
         """Starts a new game with an empty game board."""
         # Three empty rows and columns.
         self.game_board = {
-            "0": [" ", " ", " "],
-            "1": [" ", " ", " "],
-            "2": [" ", " ", " "],
+            0: [" ", " ", " "],
+            1: [" ", " ", " "],
+            2: [" ", " ", " "],
         }
 
     def _draw_game_board(self):
         """Clear the terminal and print the game board."""
         subprocess.run("clear")
         # Print top border.
-        border = "+-+-+-+"
+        column_header = "   1 2 3 "
+        border = "  +-+-+-+"
+        print(column_header)
         print(border)
+        row_num = 1
         for row in self.game_board.values():
             # Print row with side borders and separators.
-            row = "|".join(row)
-            print(f"|{row}|")
+            board_row = "|".join(row)
+            print(f"{row_num} |{board_row}|")
             # Print bottom border.
             print(border)
+
+            # Increment row_num for next iteration.
+            row_num += 1
 
     def _update_game_board(self, player_symbol, xy_position):
         """
@@ -71,7 +80,7 @@ class TicTacToe:
         x_position, y_position = xy_position[0], xy_position[1]
 
         # Place players symbol on game board.
-        self.game_board[x_position][int(y_position)] = player_symbol
+        self.game_board[x_position][y_position] = player_symbol
 
     def _is_xy_board_position_free(self, xy_position):
         """
@@ -81,7 +90,7 @@ class TicTacToe:
         # Unpack xy_position.
         x_position, y_position = xy_position[0], xy_position[1]
 
-        if self.game_board[x_position][int(y_position)] == " ":
+        if self.game_board[x_position][y_position] == " ":
             return True
         else:
             return False
