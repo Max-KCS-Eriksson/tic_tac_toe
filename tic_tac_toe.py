@@ -8,10 +8,11 @@ class TicTacToe:
 
     def __init__(self):
         """Init the game and create game resources."""
+        # Init players.
+        player1 = Player("Player 1", "X")
+        player2 = Player("Player 2", "O")
         # Static attributes.
-        self.player1 = Player("X")
-        self.player2 = Player("O")
-        self.players = [self.player1, self.player2]
+        self.players = [player1, player2]
 
         # Dynamic attributes.
         self._start_new_game()
@@ -41,7 +42,19 @@ class TicTacToe:
                 # Redraw the game board.
                 self._draw_game_board()
 
-                # Check for a winner.
+                # Check for a winner after each players move.
+                winner_symbol = self._check_for_winner()
+                if winner_symbol:
+                    break
+            # Break main loop.
+            if winner_symbol:
+                break
+        # Announce winner.
+        for player in self.players:
+            if player.symbol == winner_symbol:
+                winner = player.name
+                print(f"\nThe winner is {winner}!")
+                break
 
     def _start_new_game(self):
         """Starts a new game with an empty game board."""
@@ -77,7 +90,7 @@ class TicTacToe:
         A tuple or list is expected as an argument for the xy_position parameter.
         """
         # Unpack xy_position.
-        x_position, y_position = xy_position[0], xy_position[1]
+        x_position, y_position = xy_position[1], xy_position[0]
 
         # Place players symbol on game board.
         self.game_board[x_position][y_position] = player_symbol
@@ -88,12 +101,26 @@ class TicTacToe:
         is free.
         """
         # Unpack xy_position.
-        x_position, y_position = xy_position[0], xy_position[1]
+        x_position, y_position = xy_position[1], xy_position[0]
 
         if self.game_board[x_position][y_position] == " ":
             return True
         else:
             return False
+
+    def _check_for_winner(self):
+        """Check any player has three in a row on the game board."""
+        winner_symbol = None
+
+        for row in self.game_board.values():
+            # Check for horizontal win.
+            if row[0] == row[1] == row[2] and row[0] != " ":
+                winner_symbol = row[0]
+
+            # Check for vertical win.
+            column_0, column_1, column_2 = row[0], row[1], row[2]
+
+        return winner_symbol
 
 
 if __name__ == "__main__":
