@@ -9,8 +9,8 @@ class TicTacToe:
     def __init__(self):
         """Init the game and create game resources."""
         # Init players.
-        player1 = Player("Player 1", "X")
-        player2 = Player("Player 2", "O")
+        player1 = Player("Player_1", "X")
+        player2 = Player("Player_2", "O")
         # Static attributes.
         self.players = [player1, player2]
 
@@ -112,15 +112,22 @@ class TicTacToe:
         """Check any player has three in a row on the game board."""
         winner_symbol = None
 
+        # Check for horizontal win.
         for row in self.game_board.values():
-            # Check for horizontal win.
             if row[0] == row[1] == row[2] and row[0] != " ":
                 winner_symbol = row[0]
+                return winner_symbol
 
-            # Check for vertical win.
-            column_0, column_1, column_2 = row[0], row[1], row[2]
-
-        return winner_symbol
+        # Check for vertical wins.
+        for column in self.game_board.keys():
+            if (
+                self.game_board[0][column]
+                == self.game_board[1][column]
+                == self.game_board[2][column]
+                and self.game_board[0][column] != " "
+            ):
+                winner_symbol = self.game_board[0][column]
+                return winner_symbol
 
 
 if __name__ == "__main__":
