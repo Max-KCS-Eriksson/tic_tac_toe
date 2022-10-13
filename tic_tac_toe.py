@@ -112,6 +112,18 @@ class TicTacToe:
         """Check any player has three in a row on the game board."""
         winner_symbol = None
 
+        # Check for diagonal wins.
+        if (
+            self.game_board[0][0] == self.game_board[1][1] == self.game_board[2][2]
+            and self.game_board[1][1] != " "
+        ) or (
+            self.game_board[0][2] == self.game_board[1][1] == self.game_board[2][0]
+            and self.game_board[1][1] != " "
+        ):
+            # Center tile will contain winners symbol regardless of diagonal direction.
+            winner_symbol = self.game_board[1][1]
+            return winner_symbol
+
         # Check for horizontal win.
         for row in self.game_board.values():
             if row[0] == row[1] == row[2] and row[0] != " ":
