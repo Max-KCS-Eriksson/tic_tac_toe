@@ -9,8 +9,8 @@ class TicTacToe:
     def __init__(self):
         """Init the game and create game resources."""
         # Static attributes.
-        self.player1 = Player()
-        self.player2 = Player()
+        self.player1 = Player("X")
+        self.player2 = Player("O")
         self.players = [self.player1, self.player2]
 
         # Dynamic attributes.
@@ -26,19 +26,21 @@ class TicTacToe:
         while True:
             for player in self.players:
                 # Player make a move.
+                xy_position = player.get_move()
 
-                # Update Screen.
-                self._update_game_board()
+                # Redraw the game board.
+                self._update_game_board(player.symbol, xy_position)
                 self._draw_game_board()
+
                 # Check for a winner.
 
     def _start_new_game(self):
         """Starts a new game with an empty game board."""
         # Three empty rows and columns.
         self.game_board = {
-            0: [" ", " ", " "],
-            1: [" ", " ", " "],
-            2: [" ", " ", " "],
+            "0": [" ", " ", " "],
+            "1": [" ", " ", " "],
+            "2": [" ", " ", " "],
         }
 
     def _draw_game_board(self):
@@ -51,12 +53,19 @@ class TicTacToe:
             # Print row with side borders and separators.
             row = "|".join(row)
             print(f"|{row}|")
-            # Primt bottom border.
+            # Print bottom border.
             print(border)
 
     def _update_game_board(self, player_symbol, xy_position):
-        """Update the game board with a players symbol and chosen X-Y position."""
-        self.game_board
+        """
+        Update the game board with a players symbol and chosen X-Y position.
+        A tuple or list is expected as an argument for the xy_position parameter.
+        """
+        # Unpack xy_position.
+        x_position, y_position = xy_position[0], xy_position[1]
+
+        # Place players symbol on game board.
+        self.game_board[x_position][int(y_position)] = player_symbol
 
 
 if __name__ == "__main__":
