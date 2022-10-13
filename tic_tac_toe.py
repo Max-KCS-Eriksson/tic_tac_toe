@@ -28,8 +28,14 @@ class TicTacToe:
                 # Player make a move.
                 xy_position = player.get_move()
 
+                # Validate player move.
+                if self._is_xy_board_position_free(xy_position):
+                    self._update_game_board(player.symbol, xy_position)
+                else:
+                    print("That tile is already taken.")
+                    continue
+
                 # Redraw the game board.
-                self._update_game_board(player.symbol, xy_position)
                 self._draw_game_board()
 
                 # Check for a winner.
@@ -66,6 +72,19 @@ class TicTacToe:
 
         # Place players symbol on game board.
         self.game_board[x_position][int(y_position)] = player_symbol
+
+    def _is_xy_board_position_free(self, xy_position):
+        """
+        Return a boolean value depending of if the given xy_position on the game board
+        is free.
+        """
+        # Unpack xy_position.
+        x_position, y_position = xy_position[0], xy_position[1]
+
+        if self.game_board[x_position][int(y_position)] == " ":
+            return True
+        else:
+            return False
 
 
 if __name__ == "__main__":
